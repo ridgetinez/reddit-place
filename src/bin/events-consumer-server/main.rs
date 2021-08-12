@@ -15,7 +15,8 @@ static NUM_PIXELS_WIDE: u32 = 1000;
 static NUM_PIXELS_HIGH: u32 = 1000;
 static NUM_PIXELS: usize = 1000000;
 
-fn handle_pixel_event(canvas: &[u8], ) {
+fn handle_pixel_event(canvas: &mut Vec<Pixel>, event: PixelEvent) {
+    // TODO(amartinez): Change NUM_PIXELS_WIDE*y + x offset
 }
 
 fn save_canvas(canvas: &Vec<Pixel>) {
@@ -51,7 +52,7 @@ fn main() -> Result<(), io::Error> {
     loop {
         for ms in consumer.poll().unwrap().iter() {
             for m in ms.messages() {
-                println!("{:?}", m);
+                println!("{:?}", m.value);
             }
             consumer.consume_messageset(ms).unwrap();
         }

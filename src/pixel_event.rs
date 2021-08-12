@@ -4,6 +4,7 @@ use serde::{Serialize, Deserialize};
 pub struct PixelEvent {
     pub x: usize,
     pub y: usize,
+    pub version: usize,
     pub pixel: Pixel,
 }
 

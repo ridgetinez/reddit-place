@@ -13,17 +13,19 @@ async fn handle_draw() -> impl Responder {
     let pixel_event = PixelEvent{
         x: 2502,
         y: 256,
+        version: 1,
         pixel: Pixel{
-            r: 250,
-            g: 250,
-            b: 250,
-            a: 250,
+            r: 255,
+            g: 0,
+            b: 0,
+            a: 255,
         },
     };
     let serialised = serde_json::to_string(&pixel_event).unwrap();
 
-    // Each handler defines its own producer client, as it can't be shared in an Arc
-    // context without a Mutex / guarantee of no race conditions. What happens to performance?
+    // Each handler defines its own producer client, as it can't be mutably shared in an Arc
+    // context without a Mutex / guarantee of no race conditions. TODO: Measure performance
+    // between this and a Mutex design.
     let mut producer = Producer::from_hosts(vec![String::from(KAFKA_URL)])
                     .with_ack_timeout(Duration::from_secs(1))
                     .with_required_acks(RequiredAcks::One)
